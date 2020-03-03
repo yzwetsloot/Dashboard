@@ -1,10 +1,23 @@
 <!doctype html>
 <title>BolBot</title>
+<link rel="shortcut icon" href="../static/images/box.ico">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="../static/style.css">
 <div class="container">
     <form class="search">
-        <input type="text" class="searchTerm" placeholder="Search..." name="search">
+        <input type="text" class="searchTerm" placeholder="Search..." name="search", spellcheck="false">
         <button type="submit" class="searchButton"><i class="fa fa-search"></i></button>
     </form>
+</div>
+<div class="wrapper">
+    {% if rows %}
+        <h2>{{ rows|length }} results</h2>
+        <ul class="results">
+            {%- for row in rows %}
+            <li><a href="{{row.url}}">{{row.url}}</a>{{row.price}}{{row.last_modified}}</li>
+            {%- endfor %}
+        </ul>
+    {% else %}
+        <h2>0 results</h2>
+    {% endif %}
 </div>
