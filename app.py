@@ -18,15 +18,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://{user}:{password}@{host}:{
 db.init_app(app)
 app.app_context().push()
 
-columns = ['url', 'price', 'last_modified']
-
 
 @app.route('/')
 def index():
     if 'search' in request.args:
         query = request.args['search']
-        rows = search(query)
-        return render_template('index.html', columns=columns, rows=rows)
+        products = search(query)
+        return render_template('index.html', products=products)
     return render_template('index.html')
 
 

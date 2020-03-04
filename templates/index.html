@@ -10,14 +10,24 @@
     </form>
 </div>
 <div class="wrapper">
-    {% if rows %}
-        <h2>{{ rows|length }} results</h2>
+    {% if products|length > 0 %}
+        <h2>{{ products|length }} results</h2>
         <ul class="results">
-            {%- for row in rows %}
-            <li><a href="{{row.url}}">{{row.url}}</a>{{row.price}}{{row.last_modified}}</li>
+            {%- for product in products %}
+                    <li class="item">
+                        <div class="collapsible">
+                            <p><a href="{{product.url}}" target="_blank">{{product.url}}</a></p>
+                            <p>&euro; {{product.price}}</p>
+                            <p>{{product.last_modified}}</p>
+                        </div>
+                        <div class="content">
+                            <p>Lorem...</p>
+                        </div>
+                    </li>
             {%- endfor %}
         </ul>
-    {% else %}
+    {% elif products is defined %}
         <h2>0 results</h2>
     {% endif %}
 </div>
+<script src="../static/app.js"></script>
