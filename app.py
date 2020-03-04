@@ -23,15 +23,16 @@ app.app_context().push()
 def index():
     if 'search' in request.args:
         query = request.args['search']
-        products = search(query)
-        return render_template('index.html', products=products)
+        products, prices = search(query)
+        return render_template('index.html', products=products, prices=prices)
     return render_template('index.html')
 
 
 def search(query):
     query = '%{}%'.format(query)
-    records = Product.query.filter(Product.url.like(query)).all()
-    return records
+    products = Product.query.filter(Product.url.like(query)).all()
+    prices = Price.query.filter(Price.url.like(query)).all()
+    return products, prices
 
 
 if __name__ == '__main__':

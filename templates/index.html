@@ -21,7 +21,16 @@
                             <p>{{product.last_modified}}</p>
                         </div>
                         <div class="content">
-                            <p>Lorem...</p>
+                            <ul class="results">
+                            {%- for price in prices %}
+                                {% if product.url == price.url %}
+                                    <li class="item">
+                                        <p>&euro; {{price.value}}</p>
+                                        <p>{{price.inserted}}</p>
+                                    </li>
+                                {% endif %}
+                            {%- endfor %}
+                            </ul>
                         </div>
                     </li>
             {%- endfor %}
