@@ -84,6 +84,10 @@ p {
     color: #0a7e86;
 }
 
+h4 {
+    display: inline;
+}
+
 .collapsible {
     cursor: pointer;
 }
@@ -94,4 +98,20 @@ p {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
+    display: flex;
+}
+
+.info {
+    visibility: hidden;
+}
+
+.price-chart {
+    width: 50%;
+    padding: 10px 0;
+}
+
+.quantity-chart {
+    flex-grow: 1;
+    width: 50%;
+    padding: 10px 0;
 }

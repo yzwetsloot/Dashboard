@@ -26,4 +26,20 @@ class Price(db.Model):
         super().__init__(*args)
 
     def __repr__(self):
-        return 'url: {} price: {} last_modified: {}'.format(self.url, self.price, self.last_modified)
+        return 'url: {} price: {} last_modified: {}, weight: {}, last_notified: {}'.format(self.url,
+                                                                                           self.price,
+                                                                                           self.last_modified,
+                                                                                           self.weight,
+                                                                                           self.last_notified)
+
+
+class Quantity(db.Model):
+    url = db.Column(db.Text, primary_key=True)
+    value = db.Column(db.Integer)
+    retrieved_at = db.Column(db.DateTime, primary_key=True)
+
+    def __init__(self, *args):
+        super().__init__(*args)
+
+    def __repr__(self):
+        return 'url: {} price: {} last_modified: {}'.format(self.url, self.value, self.retrieved_at)
