@@ -32,7 +32,7 @@ function setCollapsible() {
 
 function render(data, id) {
     let figure = JSON.parse(htmlDecode(data));
-    Plotly.newPlot(id, figure.data, figure.layout);
+    Plotly.newPlot(id, figure.data, figure.layout, {staticPlot: true});
 }
 
 window.addEventListener('load', function () {

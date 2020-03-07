@@ -66,7 +66,7 @@ def search(query):
 def plot(x, y, title):
     x = json.dumps([str(item) for item in x])
     y = json.dumps([float(item) for item in y])
-    figure = f'{{"data": [{{"x": {x}, "y": {y}, "line": {{"color": "#636EFA"}}}}],' + \
+    figure = f'{{"data": [{{"x": {x}, "y": {y}, "line": {{"color": "#636EFA"}}, "marker": {{"opacity": 0}}}}],' + \
              f'"layout": {{"title": "{title}", "xaxis": {{"type": "date"}}, "yaxis": {{"type": "linear",' \
              '"rangemode": "tozero", "autorange": "true"}}}'
     return figure
