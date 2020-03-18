@@ -16,28 +16,30 @@
     {% if result_size is defined %}
         <h2>{{result_size}} results</h2>
     {% endif %}
-    {% if result_size > 0 %}
-        <ul class="results">
-            {%- for product in products %}
-                    <li class="item">
-                        <div class="collapsible">
-                            <p><h4>url</h4>&nbsp;<a href="{{product.url}}" target="_blank">{{product.url}}</a></p>
-                            <p><h4>ref. price</h4>&nbsp;&euro; {{product.price}}</p>
-                            <p><h4>last modified at</h4>&nbsp;{{product.last_modified}}</p>
-                        </div>
-                        <div class="content">
-                            <div class="info" data-chart="{{price_histories[product.url]}}"></div>
-                            <div class="info" data-chart="{{quantity_histories[product.url]}}"></div>
-                            <div class="price-chart" id="#A{{loop.index}}">
-
+    {% if result_size is defined %}
+        {% if result_size > 0 %}
+            <ul class="results">
+                {%- for product in products %}
+                        <li class="item">
+                            <div class="collapsible">
+                                <p><h4>url</h4>&nbsp;<a href="{{product.url}}" target="_blank">{{product.url}}</a></p>
+                                <p><h4>ref. price</h4>&nbsp;&euro; {{product.price}}</p>
+                                <p><h4>last modified at</h4>&nbsp;{{product.last_modified}}</p>
                             </div>
-                            <div class="quantity-chart" id="#B{{loop.index}}">
+                            <div class="content">
+                                <div class="info" data-chart="{{price_histories[product.url]}}"></div>
+                                <div class="info" data-chart="{{quantity_histories[product.url]}}"></div>
+                                <div class="price-chart" id="#A{{loop.index}}">
 
+                                </div>
+                                <div class="quantity-chart" id="#B{{loop.index}}">
+
+                                </div>
                             </div>
-                        </div>
-                    </li>
-            {%- endfor %}
-        </ul>
+                        </li>
+                {%- endfor %}
+            </ul>
+        {% endif %}
     {% endif %}
     <div class="pagination">
         {% if page_count is defined %}
