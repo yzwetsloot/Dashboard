@@ -13,8 +13,10 @@
     </form>
 </div>
 <div class="wrapper">
-    {% if products|length > 0 %}
-        <h2>{{ products|length }} results</h2>
+    {% if result_size is defined %}
+        <h2>{{result_size}} results</h2>
+    {% endif %}
+    {% if result_size > 0 %}
         <ul class="results">
             {%- for product in products %}
                     <li class="item">
@@ -36,7 +38,12 @@
                     </li>
             {%- endfor %}
         </ul>
-    {% elif products is defined %}
-        <h2>0 results</h2>
     {% endif %}
+    <div class="pagination">
+        {% if page_count is defined %}
+            {%- for n in range(page_count) %}
+                <a href="{{query_param}}&page={{n+1}}">{{n+1}}</a>
+            {%- endfor %}
+        {% endif %}
+    </div>
 </div>

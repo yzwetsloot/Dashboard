@@ -10,6 +10,9 @@ app = Flask(__name__)
 with open('config/config.json') as file:
     config = json.loads(file.read())
 
+RESULT_SIZE = config['result_size']
+MAX_RESULT_SIZE = config['max_result_size']
+
 db_config = config['db_config']
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -24,18 +27,34 @@ app.app_context().push()
 def index():
     if 'search' in request.args:
         query = request.args['search']
-        products, price_histories, quantity_histories = search(query)
+
+        result_count = Product.query.filter(Product.url.like(f'%{query}%')).count()
+        result_size = min(result_count, MAX_RESULT_SIZE)
+
+        tmp_count = result_size // RESULT_SIZE
+        page_count = tmp_count if result_size % RESULT_SIZE == 0 else tmp_count + 1
+
+        offset = 0
+
+        if 'page' in request.args:
+            page = request.args['page']
+            offset = (int(page) - 1) * RESULT_SIZE
+
+        products, price_histories, quantity_histories = search(query, offset)
 
         return render_template('index.html',
+                               result_size=result_size,
                                products=products,
                                price_histories=price_histories,
-                               quantity_histories=quantity_histories)
+                               quantity_histories=quantity_histories,
+                               query_param=f'?search={query}',
+                               page_count=page_count)
     return render_template('index.html')
 
 
-def search(query):
+def search(query, offset):
     query = '%{}%'.format(query)
-    products = Product.query.filter(Product.url.like(query)).all()
+    products = Product.query.filter(Product.url.like(query)).limit(RESULT_SIZE).offset(offset).all()
 
     price_histories = {}
     quantity_histories = {}
