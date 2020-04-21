@@ -28,12 +28,6 @@ def index():
     if 'search' in request.args:
         query = request.args['search']
 
-        result_count = Product.query.filter(Product.url.like(f'%{query}%')).count()
-        result_size = min(result_count, MAX_RESULT_SIZE)
-
-        tmp_count = result_size // RESULT_SIZE
-        page_count = tmp_count if result_size % RESULT_SIZE == 0 else tmp_count + 1
-
         offset = 0
 
         if 'page' in request.args:
@@ -41,6 +35,16 @@ def index():
             offset = (int(page) - 1) * RESULT_SIZE
 
         products, price_histories, quantity_histories = search(query, offset)
+
+        if len(products) < RESULT_SIZE and offset == 0:
+            result_size = len(products)
+            page_count = 1
+        else:
+            result_count = Product.query.filter(Product.url.like(f'%{query}%')).count()
+            result_size = min(result_count, MAX_RESULT_SIZE)
+
+            tmp_count = result_size // RESULT_SIZE
+            page_count = tmp_count if result_size % RESULT_SIZE == 0 else tmp_count + 1
 
         return render_template('index.html',
                                result_size=result_size,
