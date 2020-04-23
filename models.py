@@ -7,12 +7,18 @@ class Product(db.Model):
     url = db.Column(db.Text, primary_key=True)
     price = db.Column(db.Numeric)
     last_modified = db.Column(db.DateTime)
+    treshold = db.Column(db.Numeric)
+    auto_buy = db.Column(db.Boolean)
 
     def __init__(self, *args):
         super().__init__(*args)
 
     def __repr__(self):
-        return 'url: {} price: {} last_modified: {}'.format(self.url, self.price, self.last_modified)
+        return 'url: {} price: {} last_modified: {}'.format(self.url,
+                                                            self.price,
+                                                            self.last_modified,
+                                                            self.treshold,
+                                                            self.auto_buy)
 
 
 class Price(db.Model):

@@ -2,6 +2,7 @@ import json
 from datetime import timedelta
 
 from flask import Flask, request, render_template
+from sqlalchemy import exc
 
 from models import db, Product, Price, Quantity
 
@@ -54,6 +55,21 @@ def index():
                                query_param=f'?search={query}',
                                page_count=page_count)
     return render_template('index.html')
+
+
+@app.route('/treshold', methods=['POST'])
+def treshold_handler():
+    data = request.form.to_dict()
+    url = data['url']
+    treshold = data['treshold']
+
+    try:
+        Product.query.filter(Product.url == url).update(dict(treshold=treshold))
+        db.session.commit()
+    except exc.SQLAlchemyError:
+        return '', 500
+
+    return '', 200
 
 
 def search(query, offset):

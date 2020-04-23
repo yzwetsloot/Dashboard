@@ -22,9 +22,26 @@
                 {%- for product in products %}
                         <li class="item">
                             <div class="collapsible">
-                                <p><h4>url</h4>&nbsp;<a href="{{product.url}}" target="_blank">{{product.url}}</a></p>
-                                <p><h4>ref. price</h4>&nbsp;&euro; {{product.price}}</p>
-                                <p><h4>last modified at</h4>&nbsp;{{product.last_modified}}</p>
+                                <div class="info-container">
+                                    <p><h4>url</h4>&nbsp;<a href="{{product.url}}" target="_blank">{{product.url}}</a></p>
+                                    <p><h4>ref. price</h4>&nbsp;&euro; {{product.price}}</p>
+                                    <p><h4>last modified at</h4>&nbsp;{{product.last_modified}}</p>
+                                    <p><h4>treshold</h4>&nbsp;0</p>
+                                </div>
+                                <div class="modify-container">
+                                    <p><h4>
+                                    <form method="post" onsubmit="return postTreshold(this);" data-url="{{product.url}}">
+                                        <input type="text" class="treshold-search" name="treshold" required=true pattern="^\d+(\.\d{1,2})?$" oninvalid="warn(this);this.setCustomValidity(' ');" onchange="this.setCustomValidity('')" spellcheck="false">
+                                        <button type="submit" class="treshold-button" name="update">Submit</button>
+                                    </form>
+                                    </h4></p>
+                                    <p><h4>
+                                        <label class="switch">
+                                            <input type="checkbox">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </h4></p>
+                                </div>
                             </div>
                             <div class="content">
                                 <div class="info" data-chart="{{price_histories[product.url]}}"></div>
