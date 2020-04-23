@@ -33,6 +33,10 @@ function setCollapsible() {
 }
 
 function postTreshold(form) {
+    if (form.children.length === 3) {
+        form.removeChild(form.children[2]);
+    }
+
     form.children[0].style.borderColor = "lightgrey";
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
@@ -72,6 +76,26 @@ function postTreshold(form) {
     xhr.send(payload);
 
     return false;
+}
+
+function postAutoBuy(toggle) {
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                console.log("successful submission");
+            } else {
+                toggle.checked = false;
+                console.log("submission failed")
+            }
+        }
+    };
+
+    xhr.open("POST", "/auto_buy");
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    let url = toggle.getAttribute("data-url");
+    xhr.send(`url=${url}&auto_buy=${toggle.checked}`);
 }
 
 function warn(textbox) {

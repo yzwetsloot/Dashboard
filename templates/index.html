@@ -6,6 +6,7 @@
 <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
 <script type="text/javascript" src="../static/app.js"></script>
+<a id="home_ref" href="/"><img src="../static/images/storage.svg" width="64" height="64"></a>
 <div class="container">
     <form class="search">
         <input type="text" class="searchTerm" placeholder="Search..." name="search" spellcheck="false">
@@ -26,7 +27,7 @@
                                     <p><h4>url</h4>&nbsp;<a href="{{product.url}}" target="_blank">{{product.url}}</a></p>
                                     <p><h4>ref. price</h4>&nbsp;&euro; {{product.price}}</p>
                                     <p><h4>last modified at</h4>&nbsp;{{product.last_modified}}</p>
-                                    <p><h4>treshold</h4>&nbsp;0</p>
+                                    <p><h4>treshold</h4>&nbsp;{{product.treshold}}</p>
                                 </div>
                                 <div class="modify-container">
                                     <p><h4>
@@ -37,7 +38,11 @@
                                     </h4></p>
                                     <p><h4>
                                         <label class="switch">
-                                            <input type="checkbox">
+                                            {% if product.auto_buy %}
+                                                <input type="checkbox" checked onclick="postAutoBuy(this);" data-url="{{product.url}}">
+                                            {% else %}
+                                                <input type="checkbox" onclick="postAutoBuy(this);" data-url="{{product.url}}">
+                                            {% endif %}
                                             <span class="slider round"></span>
                                         </label>
                                     </h4></p>

@@ -72,6 +72,21 @@ def treshold_handler():
     return '', 200
 
 
+@app.route('/auto_buy', methods=['POST'])
+def auto_buy_handler():
+    data = request.form.to_dict()
+    url = data['url']
+    auto_buy = True if data['auto_buy'] == 'true' else False
+
+    try:
+        Product.query.filter(Product.url == url).update(dict(auto_buy=auto_buy))
+        db.session.commit()
+    except exc.SQLAlchemyError:
+        return '', 500
+
+    return '', 200
+
+
 def search(query, offset):
     query = '%{}%'.format(query)
     products = Product.query.filter(Product.url.like(query)).limit(RESULT_SIZE).offset(offset).all()
